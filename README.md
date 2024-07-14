@@ -26,3 +26,8 @@ How to use!
 `hexdump -C flash.bin | more`
 
 We will aim to keep this README up to date with the project. 
+
+-----------------------
+NEW FEATURE
+-----------------------
+You are now able to flash the MCU while building the project with `zig build flash`. It targets ttyAMC0 by default, but can be changed with additional input arguments. 
