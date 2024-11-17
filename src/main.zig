@@ -2,23 +2,21 @@ const builtin = @import("builtin");
 
 pub fn main() noreturn {
     // Memory-mapped registers for ATmega328P
-    //var DDRB_temp: u8 = 0x24;
-    //var PORTB_temp: u8 = 0x25;
-    const DDRB: *volatile u8 = @ptrFromInt(0x24); // Data Direction Register B
-    const PORTB: *volatile u8 = @ptrFromInt(0x25); // Port B Data Register
+    const DDRB5: *volatile u8 = @ptrFromInt(0x24); // Data Direction Register B
+    const PORTB5: *volatile u8 = @ptrFromInt(0x25); // Port B Data Register
 
     const LED_PIN: u8 = 5; // Pin 13 corresponds to bit 5 of PORTB.
 
     // Set LED_PIN as an output
-    DDRB.* |= 1 << LED_PIN;
+    DDRB5.* |= 1 << LED_PIN;
 
     while (true) {
         // Turn on the LED
-        PORTB.* |= 1 << LED_PIN;
+        PORTB5.* |= 1 << LED_PIN;
         delay_ms(1000);
 
         // Turn off the LED
-        PORTB.* &= ~@as(u8, @intCast(1 << LED_PIN));
+        PORTB5.* &= ~@as(u8, @intCast(1 << LED_PIN));
         delay_ms(1000);
     }
 }
