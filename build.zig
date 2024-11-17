@@ -39,8 +39,15 @@ pub fn build(b: *std.Build) !void {
         break :blk try tmp.toOwnedSlice();
     };
 
+    const read_command = blk: {
+        var tmp = std.ArrayList(u8).init(b.allocator);
+        try tmp.appendSlice("-Uflash:r:");
+        try tmp.appendSlice("./flash.bin");
+        try tmp.appendSlice(":r");
+        break :blk try tmp.toOwnedSlice();
+    };
     const upload = b.step("flash", "Flashing the code to an Arduino device using avrdude");
-    const avrdude = b.addSystemCommand(&.{
+    const avrdudeFlash = b.addSystemCommand(&.{
         "avrdude",
         "-carduino",
         "-pm328p",
@@ -48,6 +55,18 @@ pub fn build(b: *std.Build) !void {
         tty,
         flash_command,
     });
-    upload.dependOn(&avrdude.step);
-    avrdude.step.dependOn(&exe.step);
+    upload.dependOn(&avrdudeFlash.step);
+    avrdudeFlash.step.dependOn(&exe.step);
+
+    const read = b.step("read", "Reading the code of the conencted Arduino device using avrdude");
+    const avrdudeRead = b.addSystemCommand(&.{
+        "avrdude",
+        "-carduino",
+        "-pm328p",
+        "-P",
+        tty,
+        read_command,
+    });
+    read.dependOn(&avrdudeRead.step);
+    avrdudeRead.step.dependOn(&exe.step);
 }

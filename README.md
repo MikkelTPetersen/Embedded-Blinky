@@ -5,7 +5,7 @@ We hope that you can learn something from our project! :)
 -----------------------
 Software 
 -----------------------
-- zig version 0.13 
+- zig version 0.13 (Required) 
 - Software to flash your MCU. We use avrdude
 
 -----------------------
@@ -31,3 +31,4 @@ We will aim to keep this README up to date with the project.
 NEW FEATURE
 -----------------------
 You are now able to flash the MCU while building the project with `zig build flash`. It targets ttyAMC0 by default, but can be changed with additional input arguments. 
+You are also able to read the content of the chip using `zig build read`. It produces a flash.bin file in your current folder. 
