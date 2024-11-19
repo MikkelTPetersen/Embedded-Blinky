@@ -1,22 +1,22 @@
 const builtin = @import("builtin");
-
+const Pin_module = @import("Pin.zig");
+const Pin = Pin_module.Pin;
 pub fn main() noreturn {
     // Memory-mapped registers for ATmega328P
     const DDRB5: *volatile u8 = @ptrFromInt(0x24); // Data Direction Register B
     const PORTB5: *volatile u8 = @ptrFromInt(0x25); // Port B Data Register
 
     const LED_PIN: u8 = 5; // Pin 13 corresponds to bit 5 of PORTB.
-
+    var B5 = try Pin.init(DDRB5, PORTB5, LED_PIN);
     // Set LED_PIN as an output
-    DDRB5.* |= 1 << LED_PIN;
-
+    B5.setPinAsOutput();
     while (true) {
         // Turn on the LED
-        PORTB5.* |= 1 << LED_PIN;
+        B5.setPinOn();
         delay_ms(1000);
 
         // Turn off the LED
-        PORTB5.* &= ~@as(u8, @intCast(1 << LED_PIN));
+        B5.setPinOff();
         delay_ms(1000);
     }
 }
