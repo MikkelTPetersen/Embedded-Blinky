@@ -33,3 +33,9 @@ fn delay_ms(ms: usize) void {
 pub export fn _start() noreturn {
     main();
 }
+
+test "setPinAsInput_shouldBeSetAsInpput test"  {
+    var Pin1 = try Pin.init(@ptrFromInt(0x24), @ptrFromInt(0x25), 5);
+    Pin1.setPinAsInput();
+    try std.testing.expectEqual(Pin1.DDR, 1);
+}
