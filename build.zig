@@ -55,6 +55,7 @@ pub fn build(b: *std.Build) !void {
         tty,
         flash_command,
     });
+    upload.dependOn(b.getInstallStep());
     upload.dependOn(&avrdudeFlash.step);
     avrdudeFlash.step.dependOn(&exe.step);
 
