@@ -1,4 +1,3 @@
-const std = @import("std");
 pub const Pin = struct {
     DDR: *volatile u8, //Data Direction Register
     Port: *volatile u8, //Port address

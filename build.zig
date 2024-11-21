@@ -70,4 +70,13 @@ pub fn build(b: *std.Build) !void {
     });
     read.dependOn(&avrdudeRead.step);
     avrdudeRead.step.dependOn(&exe.step);
+    const exe_unit_tests = b.addTest(.{
+        .root_source_file = b.path("src/main.zig"),
+        .target = b.host,
+        .optimize = .ReleaseSafe,
+    });
+
+    const run_exe_unit_tests = b.addRunArtifact(exe_unit_tests);
+    const test_step = b.step("test", "Run unit tests");
+    test_step.dependOn(&run_exe_unit_tests.step);
 }
